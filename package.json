@@ -1,0 +1,46 @@
+{
+  "name": "mashboard",
+  "version": "0.0.1",
+  "description": "Full stack application for brewing and distilling monitoring and control",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && npm start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "initialize": "npx knex migrate:latest",
+    "initializeData": "npx knex migrate:latest && npx knex seed:run",
+    "postinstall": "cd client && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prphntm63/mashboard.git"
+  },
+  "keywords": [
+    "brewing",
+    "brew",
+    "distilling",
+    "distill",
+    "dashboard",
+    "socketio",
+    "hardware",
+    "modbus",
+    "rs-485"
+  ],
+  "author": "Matt Westwick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prphntm63/mashboard/issues"
+  },
+  "homepage": "https://github.com/prphntm63/mashboard#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "knex": "^0.20.4",
+    "pg": "^7.15.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
