@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import socketIOClient from "socket.io-client";
 import './App.css';
 
-
+import { connect } from "react-redux";
+import { updateUser, updateStreamdata } from './redux/actions'
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends React.Component {
     const socket = socketIOClient("http://127.0.0.1:5000")
     socket.on('client', clientData => {
       console.log('Socket Data Recieved -', clientData)
+      this.props.updateStreamdata(clientData)
       this.setState({socketData : clientData})
     })
 
@@ -32,6 +34,7 @@ class App extends React.Component {
     })
     .then(responseJson => {
       if (responseJson) {
+        this.props.updateUser(responseJson)
         this.setState({
           response : responseJson.success
         })
@@ -59,16 +62,16 @@ class App extends React.Component {
           >
             Learn React
           </a>
-          <h2>{this.state.response ? `API Test Succesful! Value: ${this.state.response}` : "No Response"}</h2>
+          <h2>{this.props.user.id ? `API Test Succesful! Value: ${this.props.user.firstName + ' ' + this.props.user.lastName}` : "No Response"}</h2>
           
           {this.state.socketData === null ? (<div></div>) : (
             <div>
-              {Object.keys(this.state.socketData).map(param => {return (
+              {Object.keys(this.props.streamData).map(param => {return (
               <React.Fragment>
                 <h4>{param}</h4>
-                {Object.keys(this.state.socketData[param]).map(subparam => {return (
+                {Object.keys(this.props.streamData[param]).map(subparam => {return (
                   <React.Fragment>
-                    <p>{subparam + ': ' + this.state.socketData[param][subparam]}</p>
+                    <p>{subparam + ': ' + this.props.streamData[param][subparam]}</p>
                   </React.Fragment>
                 )})}
               </React.Fragment>
@@ -81,4 +84,14 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  user : state.user,
+  streamData : state.streamdata
+})
+
+const mapDispatchToProps = {
+  updateUser,
+  updateStreamdata
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
