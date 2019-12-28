@@ -43,6 +43,13 @@ let processSettings = {
     }
 }
 
+let currentTemp = {
+    Mash : processSettings.Mash.setTemp,
+    Ferm1 : processSettings.Ferm1.setTemp,
+    Ferm2 : processSettings.Ferm2.setTemp,
+    Still : processSettings.Still.setTemp
+}
+
 socket.on('connect', ()=> {
     console.log('connected to server')
     //Simulating reading data every x milliseconds
@@ -50,14 +57,16 @@ socket.on('connect', ()=> {
         let outData = {}
         let writeData = {}
         for (processSetting in processSettings) {
+            currentTemp[processSetting] += (currentTemp[processSetting] <= processSettings[processSetting].setTemp ? processSettings[processSetting].hys*Math.random() : -processSettings[processSetting].hys*Math.random())
+
+
             if (processSetting != 'Chiller') {
                 writeData = {
                     ...processSettings[processSetting],
-                    "currentTemp" : processSettings[processSetting].setTemp - processSettings[processSetting].hys + 2*processSettings[processSetting].hys*Math.random(),
-                    "setTemp" : processSettings[processSetting].setTemp + 1
+                    // "currentTemp" : processSettings[processSetting].setTemp - processSettings[processSetting].hys + 2*processSettings[processSetting].hys*Math.random(),
+                    "currentTemp" : currentTemp[processSetting],
+                    // "setTemp" : processSettings[processSetting].setTemp
                 }
-                delete writeData.id
-                delete writeData.ctime
         
             } else {
                 writeData = {
@@ -65,19 +74,18 @@ socket.on('connect', ()=> {
                     "currentFreq" : processSettings[processSetting].freq - 2 + 4*Math.random(),
                     "currentPower" : processSettings[processSetting].maxPower - 100 + 200*Math.random()
                 }
-                delete writeData.id
-                delete writeData.ctime
             }
             outData[processSetting] = writeData
         }
 
-        console.log('Sending simulated Controller data at - ', new Date())
+        // console.log('Sending simulated Controller data at - ', new Date())
         socket.emit('controllerdata', outData);
     }, 5000);
 })
 
 socket.on('controller', (data)=> {
-    console.log('Controller got data from server - ', data)
+    // console.log('Controller got data from server at - ', new Date())
+    processSettings = data
 })
 
 

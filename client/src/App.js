@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import socketIOClient from "socket.io-client";
 import './App.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { connect } from "react-redux";
 import { updateUser, updateStreamdata } from './redux/actions'
+import ControllerPane from './components/ControllerPane';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +20,7 @@ class App extends React.Component {
   componentDidMount() {
     const socket = socketIOClient("http://127.0.0.1:5000")
     socket.on('client', clientData => {
-      console.log('Socket Data Recieved -', clientData)
+      // console.log('Socket Data Recieved -', clientData)
       this.props.updateStreamdata(clientData)
       this.setState({socketData : clientData})
     })
@@ -64,21 +66,29 @@ class App extends React.Component {
           </a>
           <h2>{this.props.user.id ? `API Test Succesful! Value: ${this.props.user.firstName + ' ' + this.props.user.lastName}` : "No Response"}</h2>
           
+               
+        </header>
+        <div>
           {this.state.socketData === null ? (<div></div>) : (
-            <div>
-              {Object.keys(this.props.streamData).map(param => {return (
-              <React.Fragment>
-                <h4>{param}</h4>
-                {Object.keys(this.props.streamData[param]).map(subparam => {return (
-                  <React.Fragment>
-                    <p>{subparam + ': ' + this.props.streamData[param][subparam]}</p>
-                  </React.Fragment>
-                )})}
-              </React.Fragment>
+            <div className="d-flex flex-row">
+              {Object.keys(this.props.streamData).map(processType => {return processType==='Chiller' ? <div></div> : (
+                <ControllerPane processId={processType} />
               )})}
             </div>
-          )}     
-        </header>
+            // <div>
+            //   {Object.keys(this.props.streamData).map(param => {return (
+            //   <React.Fragment>
+            //     <h4>{param}</h4>
+            //     {Object.keys(this.props.streamData[param]).map(subparam => {return (
+            //       <React.Fragment>
+            //         <p>{subparam + ': ' + this.props.streamData[param][subparam]}</p>
+            //       </React.Fragment>
+            //     )})}
+            //   </React.Fragment>
+            //   )})}
+            // </div>
+          )}
+        </div>
       </div>
     )
   }

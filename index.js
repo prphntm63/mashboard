@@ -28,17 +28,20 @@ io.on('connection', function(socket){
     console.log('new client connected')
 
     socket.on('controllerdata', (controllerdata)=>{
-        console.log(`Controller Data Recieved from controller at -`, new Date())
+        // console.log(`Controller Data Recieved from controller at -`, new Date())
         db.writeControllerData(controllerdata)
         .then((sendData) => {
+            for (key in sendData) {
+                sendData[key].ctime = new Date()
+            }
             console.log('Sending data to client...')
             socket.broadcast.emit('client', sendData)
         })
     });
 
     socket.on('clientdata', (data) => {
-        console.log(`Client Data Recieved from client -`, data)
-        socket.broadcast.emit('controller', 'Test Socket Message from Server to Controller')
+        // console.log(`Client Data Recieved from client at - ${new Date()}`)
+        socket.broadcast.emit('controller', data)
     })
 
     //A special namespace "disconnect" for when a client disconnects
