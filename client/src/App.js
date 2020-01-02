@@ -7,6 +7,7 @@ import './App.css';
 import { connect } from "react-redux";
 import { updateUser, updateStreamdata } from './redux/actions'
 import ControllerPane from './components/ControllerPane';
+import ChillerPane from './components/ChillerPane'
 
 class App extends React.Component {
   constructor(props) {
@@ -71,9 +72,11 @@ class App extends React.Component {
         <div>
           {this.state.socketData === null ? (<div></div>) : (
             <div className="d-flex flex-row">
-              {Object.keys(this.props.streamData).map(processType => {return processType==='Chiller' ? <div></div> : (
-                <ControllerPane processId={processType} />
-              )})}
+              {Object.keys(this.props.streamData).map(processType => {return processType==='Chiller' ? 
+              (<ChillerPane processId={"Chiller"} />)
+              : 
+              (<ControllerPane processId={processType} />)
+              })}
             </div>
             // <div>
             //   {Object.keys(this.props.streamData).map(param => {return (

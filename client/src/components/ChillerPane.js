@@ -27,11 +27,7 @@ class ControllerPane extends Component {
         console.log('Sending Event - ', this.props.processId, evt.target.id, evt.target.value)
         let newClientData = {...this.props.clientData}
 
-        if (evt.target.id.slice(0,4) === "stir") {
-            newClientData[this.props.processId][evt.target.id.slice(0,4)] = evt.target.checked
-        } else {
-            newClientData[this.props.processId][evt.target.id] = evt.target.value
-        }
+        newClientData[this.props.processId][evt.target.id] = evt.target.value
 
         this.props.updateClientStreamOut(newClientData)
 
@@ -52,8 +48,11 @@ class ControllerPane extends Component {
                     <Form>
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label>Current Temperature</Form.Label>
-                                <Form.Control type="text" disabled value={controllerProcessData.currentTemp}></Form.Control>
+                                <Form.Label>Chiller Mode</Form.Label>
+                                <Form.Control as="select" id={"mode"} value={clientProcessData.mode} onChange={this.handleParamChange}>
+                                    <option value={"off"}>Off</option>
+                                    <option value="run">Run</option>
+                                </Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label>Last Updated</Form.Label>
@@ -63,47 +62,23 @@ class ControllerPane extends Component {
 
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label>Set Temperature</Form.Label>
-                                <Form.Control type="number" id={"setTemp"} value={clientProcessData.setTemp} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Label>Set Frequency</Form.Label>
+                                <Form.Control type="number" id={"freq"} value={clientProcessData.freq} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
-                                <Form.Label>Batch</Form.Label>
-                                <Form.Control type="text" id={"batch"} value={clientProcessData.batch === 'null' ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Label>Mode</Form.Label>
-                                <Form.Control as="select" id={"mode"} value={clientProcessData.mode} onChange={this.handleParamChange}>
-                                    {this.props.processId === "Mash" || this.props.processId === "Still" ? 
-                                    (<React.Fragment>
-                                        <option value="off">Off</option>
-                                        <option value="heat">Heat</option>
-                                        <option value="cool">Cool</option>
-                                    </React.Fragment>) 
-                                    : 
-                                    (<React.Fragment>
-                                        <option value="off">Off</option>
-                                        <option value="cool">Cool</option>
-                                    </React.Fragment>) 
-                                    }
-                                    
-                                </Form.Control>
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label>Hysterisis</Form.Label>
-                                <Form.Control type="number" id={"hys"} value={clientProcessData.hys} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Label>Current Frequency</Form.Label>
+                                <Form.Control type="number" disabled id={"currentFreq"} value={controllerProcessData.currentFreq} ></Form.Control>
                             </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Check type="switch" id={`stir-${this.props.processId}`} label={"stir"} checked={clientProcessData.stir} onChange={this.handleParamChange}/>
+                                <Form.Label>Max Power</Form.Label>
+                                <Form.Control type="number" id={"maxPower"} value={clientProcessData.maxPower} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
-                                <Form.Label>Stir Speed</Form.Label>
-                                <Form.Control type="number" id={"stirSpeed"} value={clientProcessData.stirSpeed} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Label>Current Power</Form.Label>
+                                <Form.Control type="number" disabled id={"currentPower"} value={controllerProcessData.currentPower}></Form.Control>
                             </Form.Group>
                         </Form.Row>
                         
