@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { updateUser, updateStreamdata } from './redux/actions'
 import ControllerPane from './components/ControllerPane';
 import ChillerPane from './components/ChillerPane'
+import UserLogin from './components/UserLogin'
 
 class App extends React.Component {
   constructor(props) {
@@ -69,6 +70,7 @@ class App extends React.Component {
           
                
         </header>
+        <UserLogin />
         <div>
           {this.state.socketData === null ? (<div></div>) : (
             <div className="d-flex flex-row">
