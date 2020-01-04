@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import { updateUser } from './../redux/actions'
-import {Button, Modal, Form} from 'react-bootstrap'
+import {Button, Modal, Form, Navbar, Nav, DropdownButton, Dropdown} from 'react-bootstrap'
 
-class App extends React.Component {
-    
+class MainNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -82,18 +81,32 @@ class App extends React.Component {
         })
     }
 
-    render = () => {
+    render() {
         return (
             <>
-                {!this.props.user.id ? 
-                    (<Button type="button" onClick={this.openModal}>Login</Button>)
-                    :
-                    (<div>
-                        {/* <img /> */}
-                        <Button type="button" variant="secondary" onClick={this.handleLogout}>{this.props.user.firstName}</Button>
-                        {/* <h5 onClick={this.handleLogout}>{this.props.user.firstName}</h5> */}
-                    </div>)
-                }
+                <Navbar style={{backgroundColor : "#FBB040"}} variant="dark">
+                    <Navbar.Brand href="/">
+                        <img
+                            alt=""
+                            src="/img/MASHBOARD_Logo.svg"
+                            height="30px"
+                            className="d-inline-block align-top"
+                        />
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Nav className="ml-auto">
+                        {!this.props.user.id ? 
+                            (<Button variant="outline-dark" onClick={this.openModal}>Login</Button>)
+                            :
+                            (<DropdownButton variant="outline-dark" title={this.props.user.firstName} id="nav-dropdown" alignRight>
+                                <Dropdown.Item href="/batches">Batches</Dropdown.Item>
+                                <Dropdown.Item href="/settings">Settings</Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item onClick={this.handleLogout}>Logout</Dropdown.Item>
+                            </DropdownButton>)
+                        }
+                    </Nav>
+                </Navbar>
                 <Modal show={this.state.showModal} onHide={this.closeModal}>
                     <Modal.Body>
                         <Form>
@@ -110,8 +123,8 @@ class App extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.closeModal}>Close</Button>
-                        <Button variant="primary" onClick={this.handleLogin}>Submit</Button>
+                        <Button variant="outline-secondary" onClick={this.closeModal}>Close</Button>
+                        <Button variant="outline-dark" style={{backgroundColor : "#FBB040"}} onClick={this.handleLogin}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
             </>
@@ -128,4 +141,4 @@ const mapDispatchToProps = {
     updateUser
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(MainNavbar);

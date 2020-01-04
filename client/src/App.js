@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { updateUser, updateStreamdata } from './redux/actions'
 import ControllerPane from './components/ControllerPane';
 import ChillerPane from './components/ChillerPane'
-import UserLogin from './components/UserLogin'
+import MainNavbar from './components/MainNavbar'
 
 class App extends React.Component {
   constructor(props) {
@@ -53,8 +53,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <MainNavbar />
         <header className="App-header">
-          <UserLogin />
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
