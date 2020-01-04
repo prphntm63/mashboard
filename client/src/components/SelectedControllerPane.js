@@ -4,7 +4,7 @@ import isEqual from "react-fast-compare"
 import { connect } from "react-redux";
 import { updateClientStreamOut } from '../redux/actions'
 
-import { Jumbotron, Image, Card, Form, Col } from 'react-bootstrap'
+import { Jumbotron, Container, Button, Image, Card, Form, Col } from 'react-bootstrap'
 
 class ControllerPane extends Component {
     constructor(props) {
@@ -47,8 +47,9 @@ class ControllerPane extends Component {
 
         return (
             <Jumbotron className='selectedPane'>
-                <h1 className='text-left'>{this.props.processId}</h1>
-            <Card>
+                <Button variant='outline-dark' className='float-right'>X</Button>
+                <h2 className='text-left'>{this.props.processId}</h2>
+            <Card className='shadow-lg'>
                 <Card.Body>
                     <Form>
                         <Form.Row>
@@ -57,27 +58,21 @@ class ControllerPane extends Component {
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label>Current Temperature</Form.Label>
-                                <Form.Control type="text" disabled value={controllerProcessData.currentTemp}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"  size="lg" type="text" disabled value={parseFloat(controllerProcessData.currentTemp).toFixed(2)}></Form.Control>
                                 <Form.Label>Set Temperature</Form.Label>
-                                <Form.Control type="number" id={"setTemp"} value={clientProcessData.setTemp} onChange={this.handleParamChange}></Form.Control>
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label>Current Temperature</Form.Label>
-                                <Form.Control type="text" disabled value={controllerProcessData.currentTemp}></Form.Control>
-                                <Form.Label>Set Temperature</Form.Label>
-                                <Form.Control type="number" id={"setTemp"} value={clientProcessData.setTemp} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"  size="lg"  type="number" id={"setTemp"} value={clientProcessData.setTemp} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label>Last Updated</Form.Label>
-                                <Form.Control type="text" disabled value={controllerProcessData.ctime}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"   className="rounded-pill gold"  size="lg"  type="text" disabled value={controllerProcessData.ctime}></Form.Control>
                                 <Form.Label>Batch</Form.Label>
-                                <Form.Control type="text" id={"batch"} value={clientProcessData.batch === 'null' ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"  size="lg"  type="text" id={"batch"} value={clientProcessData.batch === 'null' ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
                             <Form.Label>Hysteresis</Form.Label>
-                                <Form.Control type="number" id={"hys"} value={clientProcessData.hys} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"  size="lg"  type="number" id={"hys"} value={clientProcessData.hys} onChange={this.handleParamChange}></Form.Control>
                                 <Form.Label>Mode</Form.Label>
-                                <Form.Control as="select" id={"mode"} value={clientProcessData.mode} onChange={this.handleParamChange}>
+                                <Form.Control  className="rounded-pill gold"  size="lg"  as="select" id={"mode"} value={clientProcessData.mode} onChange={this.handleParamChange}>
                                     {this.props.processId === "Mash" || this.props.processId === "Still" ? 
                                     (<React.Fragment>
                                         <option value="off">Off</option>
@@ -93,12 +88,11 @@ class ControllerPane extends Component {
                                     
                                 </Form.Control>
                             </Form.Group>
-                            
                             <Form.Group as={Col}>
                                 <Form.Label>Stir </Form.Label>
-                                <Form.Check type="switch" id={`stir-${this.props.processId}`} label={"stir"} checked={clientProcessData.stir} onChange={this.handleParamChange}/>
+                                <Form.Check  size="lg" type="switch" id={`stir-${this.props.processId}`} label={"stir"} checked={clientProcessData.stir} onChange={this.handleParamChange}/>
                                 <Form.Label>Stir Speed</Form.Label>
-                                <Form.Control type="number" id={"stirSpeed"} value={clientProcessData.stirSpeed} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"  size="lg" type="number" id={"stirSpeed"} value={clientProcessData.stirSpeed} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
                         </Form.Row>
                         

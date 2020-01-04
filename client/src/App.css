@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -44,4 +44,14 @@
 
 .selectedPane {
   background-color: #FBB040;
+}
+
+.gold {
+  background-color: #FBB040;
+}
+
+.form-label {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: calc(8px + .5vmin);
 }

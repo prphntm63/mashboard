@@ -4,7 +4,7 @@ import isEqual from "react-fast-compare"
 import { connect } from "react-redux";
 import { updateClientStreamOut } from '../redux/actions'
 
-import { Jumbotron, Card, Form, Col } from 'react-bootstrap'
+import { Jumbotron, Button, Image, Card, Form, Col } from 'react-bootstrap'
 
 class ControllerPane extends Component {
     constructor(props) {
@@ -43,43 +43,35 @@ class ControllerPane extends Component {
 
         return (
             <Jumbotron className='selectedPane'>
-                <h1>{this.props.processId}</h1>
-            <Card>
+                <Button variant='outline-dark' className='float-right'>X</Button>
+                <h2 className='text-left'>{this.props.processId}</h2>
+            <Card className='shadow-lg'>
                 <Card.Body>
                     <Form>
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label>Chiller Mode</Form.Label>
-                                <Form.Control as="select" id={"mode"} value={clientProcessData.mode} onChange={this.handleParamChange}>
-                                    <option value={"off"}>Off</option>
-                                    <option value="run">Run</option>
-                                </Form.Control>
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label>Last Updated</Form.Label>
-                                <Form.Control type="text" disabled value={controllerProcessData.ctime}></Form.Control>
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Label>Set Frequency</Form.Label>
-                                <Form.Control type="number" id={"freq"} value={clientProcessData.freq} onChange={this.handleParamChange}></Form.Control>
+                                <Card body><Image fluid src="https://miro.medium.com/max/982/1*bC5vMtpWz7qCFuSaD02lFg.gif"/></Card>
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label>Current Frequency</Form.Label>
-                                <Form.Control type="number" disabled id={"currentFreq"} value={controllerProcessData.currentFreq} ></Form.Control>
+                                <Form.Control  type="number" disabled  size="lg" className="rounded-pill gold" id={"currentFreq"} value={parseFloat(controllerProcessData.currentFreq).toFixed(2)} ></Form.Control>
+                                <Form.Label>Set Frequency</Form.Label>
+                                <Form.Control className="rounded-pill gold"  size="lg" type="number" id={"freq"} value={clientProcessData.freq} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
-                        </Form.Row>
-
-                        <Form.Row>
                             <Form.Group as={Col}>
+                            <Form.Label>Current Power</Form.Label>
+                                <Form.Control className="rounded-pill gold"  size="lg" type="number" disabled id={"currentPower"} value={parseFloat(controllerProcessData.currentPower).toFixed(2)}></Form.Control>
                                 <Form.Label>Max Power</Form.Label>
-                                <Form.Control type="number" id={"maxPower"} value={clientProcessData.maxPower} onChange={this.handleParamChange}></Form.Control>
+                                <Form.Control className="rounded-pill gold"  size="lg" type="number" id={"maxPower"} value={clientProcessData.maxPower} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
                             <Form.Group as={Col}>
-                                <Form.Label>Current Power</Form.Label>
-                                <Form.Control type="number" disabled id={"currentPower"} value={controllerProcessData.currentPower}></Form.Control>
+                                <Form.Label>Last Updated</Form.Label>
+                                <Form.Control  className="rounded-pill gold" size="lg" type="text" disabled value={controllerProcessData.ctime}></Form.Control>
+                                <Form.Label>Chiller Mode</Form.Label>
+                                <Form.Control className="rounded-pill gold" size="lg"  as="select" id={"mode"} value={clientProcessData.mode} onChange={this.handleParamChange}>
+                                    <option value={"off"}>Off</option>
+                                    <option value="run">Run</option>
+                                </Form.Control>
                             </Form.Group>
                         </Form.Row>
                         
