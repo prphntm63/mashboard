@@ -8,6 +8,9 @@ import { connect } from "react-redux";
 import { updateUser, updateStreamdata } from './redux/actions'
 import ControllerPane from './components/ControllerPane';
 import ChillerPane from './components/ChillerPane'
+
+import UserLogin from './components/UserLogin'
+import Dashboard from './components/Dashboard';
 import MainNavbar from './components/MainNavbar'
 
 import SelectedControllerPane from './components/SelectedControllerPane';
@@ -57,23 +60,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <MainNavbar />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <h2>{this.props.user.id ? `API Test Succesful! Value: ${this.props.user.firstName + ' ' + this.props.user.lastName}` : "No Response"}</h2>
-          
-               
-        </header>
+        <Dashboard />
+
         <div>
           {this.state.socketData === null ? (<div></div>) : (
             <div className="d-flex flex-row">
