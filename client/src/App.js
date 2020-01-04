@@ -10,6 +10,9 @@ import ControllerPane from './components/ControllerPane';
 import ChillerPane from './components/ChillerPane'
 import MainNavbar from './components/MainNavbar'
 
+import SelectedControllerPane from './components/SelectedControllerPane';
+import SelectedChillerPane from './components/SelectedChillerPane'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -74,24 +77,23 @@ class App extends React.Component {
         <div>
           {this.state.socketData === null ? (<div></div>) : (
             <div className="d-flex flex-row">
-              {Object.keys(this.props.streamData).map(processType => {return processType==='Chiller' ? 
-              (<ChillerPane processId={"Chiller"} />)
-              : 
-              (<ControllerPane processId={processType} />)
-              })}
+            {Object.keys(this.props.streamData).map(processType => {return processType==='Chiller' ? 
+            (<ChillerPane processId={"Chiller"} />)
+            : 
+            (<ControllerPane processId={processType} />)
+            })}
             </div>
-            // <div>
-            //   {Object.keys(this.props.streamData).map(param => {return (
-            //   <React.Fragment>
-            //     <h4>{param}</h4>
-            //     {Object.keys(this.props.streamData[param]).map(subparam => {return (
-            //       <React.Fragment>
-            //         <p>{subparam + ': ' + this.props.streamData[param][subparam]}</p>
-            //       </React.Fragment>
-            //     )})}
-            //   </React.Fragment>
-            //   )})}
-            // </div>
+          )}
+        </div>
+                <div>
+          {this.state.socketData === null ? (<div></div>) : (
+            <div className="">
+            {Object.keys(this.props.streamData).map(processType => {return processType==='Chiller' ? 
+            (<SelectedChillerPane processId={"Chiller"} />)
+            : 
+            (<SelectedControllerPane processId={processType} />)
+            })}
+            </div>
           )}
         </div>
       </div>
