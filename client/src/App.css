@@ -1,8 +1,8 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +35,15 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.dashboard {
+  min-height: 400px;
+}
+
+.badge-warning {
+  background-color: #FBB040;
+}
+.badge-warning:hover {
+  background-color: rgb(194, 132, 41);
 }
