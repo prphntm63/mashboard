@@ -84,7 +84,7 @@ class MainNavbar extends Component {
     render() {
         return (
             <>
-                <Navbar style={{backgroundColor : "#FBB040"}} variant="dark">
+                <Navbar style={{backgroundColor : "#FBB040"}} variant="dark" className="main-nav">
                     <Navbar.Brand href="/">
                         <img
                             alt=""

@@ -12,10 +12,11 @@ export default (state = initialSelectedComponentState, action) => {
             return newState
         }
         case DESELECT_COMPONENT: {
-            delete newState[action.component]
-            if (Object.keys(newState).length) {
-                newState[Object.keys(newState).slice(-1).pop()] = true
-            }
+            // delete newState[action.component]
+            // if (Object.keys(newState).length) {
+            //     newState[Object.keys(newState).slice(-1).pop()] = true
+            // }
+            newState = {}
             return newState
         }
         default: {

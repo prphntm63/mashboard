@@ -15,15 +15,15 @@ class Dashboard extends Component {
 
     handleSelectProcess = (evt) => {
         evt.preventDefault()
-        this.props.selectComponent(evt.currentTarget.getAttribute('processLabel'))
+        this.props.selectComponent(evt.currentTarget.getAttribute('processlabel'))
     }
 
     render = () => {
 
         return(
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-row dashboard">
                 {processes.map(currentProcess => (
-                    <div className="d-flex flex-column dashboard justify-content-between mb-3 pt-0 mt-0" style={{width : `${100/processes.length}%`}}>
+                    <div key={`dashboard-${currentProcess}`} className="d-flex flex-column dashboard-item justify-content-between mb-3 pt-0 mt-0" style={{width : `${100/processes.length}%`}}>
                         <div className="d-flex flex-column justify-content-center pt-0 mt-0">
                             <div className="text-center mt-0" style={{backgroundColor : this.props.selectedComponent[currentProcess] ? "#FBB040" : "#cccccc", fontSize : "26px"}}>{currentProcess.toUpperCase()}</div>
                             {currentProcess === "Chiller" ? 
@@ -32,7 +32,7 @@ class Dashboard extends Component {
                                 (<ControllerParams {...this.props} currentProcess={currentProcess}/>)
                             }
                         </div>
-                        <div className="text-center mt-5" processLabel={currentProcess} onClick={this.handleSelectProcess}>
+                        <div className="text-center mt-5" processlabel={currentProcess} onClick={this.handleSelectProcess}>
                             {{
                                 "Mash": (
                                     <MashSvg 

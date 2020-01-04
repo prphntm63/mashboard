@@ -2,15 +2,11 @@ import React, {Component} from 'react';
 import socketIOClient from "socket.io-client";
 import isEqual from "react-fast-compare"
 import { connect } from "react-redux";
-import { updateClientStreamOut } from '../redux/actions'
+import { updateClientStreamOut, deselectComponent } from '../redux/actions'
 
-import { Jumbotron, Container, Button, Image, Card, Form, Col } from 'react-bootstrap'
+import { Jumbotron, Button, Image, Card, Form, Col } from 'react-bootstrap'
 
 class ControllerPane extends Component {
-    constructor(props) {
-        super(props);
-        // processId = Mash / Ferm1 / etc
-    }
 
     componentDidUpdate = (prevProps) => {
         if (!isEqual(prevProps.clientData[this.props.processId], this.props.clientData[this.props.processId])) {
@@ -41,13 +37,18 @@ class ControllerPane extends Component {
         })
     }
 
+    closeProcessWindow = (evt) => {
+        evt.preventDefault()
+        this.props.deselectComponent(evt.currentTarget.getAttribute('selectedprocess'))
+    }
+
     render = () => {
         const controllerProcessData = this.props.streamData[this.props.processId]
         const clientProcessData = this.props.clientData[this.props.processId]
 
         return (
             <Jumbotron className='selectedPane'>
-                <Button variant='outline-dark' className='float-right'>X</Button>
+                <Button variant='outline-dark' className='float-right' selectedprocess={this.props.processId} onClick={this.closeProcessWindow}>X</Button>
                 <h2 className='text-left'>{this.props.processId}</h2>
             <Card className='shadow-lg'>
                 <Card.Body>
@@ -64,7 +65,7 @@ class ControllerPane extends Component {
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label>Last Updated</Form.Label>
-                                <Form.Control  className="rounded-pill gold"   className="rounded-pill gold"  size="lg"  type="text" disabled value={controllerProcessData.ctime}></Form.Control>
+                                <Form.Control  className="rounded-pill gold"  size="lg"  type="text" disabled value={controllerProcessData.ctime}></Form.Control>
                                 <Form.Label>Batch</Form.Label>
                                 <Form.Control  className="rounded-pill gold"  size="lg"  type="text" id={"batch"} value={clientProcessData.batch === 'null' ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
                             </Form.Group>
@@ -109,7 +110,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    updateClientStreamOut
+    updateClientStreamOut,
+    deselectComponent
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControllerPane);
