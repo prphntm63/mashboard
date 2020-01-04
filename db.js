@@ -34,6 +34,15 @@ let db = {
         })
     },
 
+    getUser : function(userId) {
+        return knex('Users')
+        .select('*')
+        .where({id : userId})
+        .then(userRows => {
+            return userRows[0]
+        })
+    },
+
     authenticateUser : function(username, password) {
         return knex('Users')
         .select('*')

@@ -25,7 +25,6 @@ class App extends React.Component {
 
     handleLogin = (evt) => {
         evt.preventDefault(evt)
-        console.log(this.state.userEntry, this.state.passwordEntry)
         fetch('/login', {
             method: 'POST',
             headers: {
@@ -60,8 +59,28 @@ class App extends React.Component {
         })
     }
 
-    handleLogout = () => {
-
+    handleLogout = (evt) => {
+        evt.preventDefault(evt)
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: null
+        })
+        .then(response => {
+            if (response.status === 200) {
+                this.props.updateUser({
+                    id : null,
+                    firstName : null,
+                    lastName : null,
+                    email : null
+                })
+            } else {
+                window.alert('Logout Failed!')
+            }
+        })
     }
 
     render = () => {

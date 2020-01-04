@@ -54,6 +54,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
+          <UserLogin />
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
@@ -70,7 +71,6 @@ class App extends React.Component {
           
                
         </header>
-        <UserLogin />
         <div>
           {this.state.socketData === null ? (<div></div>) : (
             <div className="d-flex flex-row">
