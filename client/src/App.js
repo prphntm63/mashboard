@@ -21,7 +21,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const socket = socketIOClient("http://127.0.0.1:5000")
+    // const socket = socketIOClient("http://127.0.0.1:5000")
+    const socket = socketIOClient();
+
     socket.on('client', clientData => {
       // console.log('Socket Data Recieved -', clientData)
       this.props.updateStreamdata(clientData)
