@@ -12,7 +12,7 @@
     "initialize": "npx knex migrate:latest",
     "initializeData": "npx knex migrate:latest && npx knex seed:run",
     "postinstall": "cd client && npm install",
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
