@@ -4,6 +4,7 @@
   "description": "Full stack application for brewing and distilling monitoring and control",
   "main": "index.js",
   "scripts": {
+    "build": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd client && npm start",
     "server": "nodemon server.js",
@@ -11,7 +12,7 @@
     "initialize": "npx knex migrate:latest",
     "initializeData": "npx knex migrate:latest && npx knex seed:run",
     "postinstall": "cd client && npm install",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
