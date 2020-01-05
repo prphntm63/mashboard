@@ -2,7 +2,7 @@ import { UPDATE_CLIENT_STREAM_OUT } from "./../actionTypes"
 
 let initialClientData = {
     'Mash' : {
-        "batch" : null,
+        "batch" : '',
         "setTemp" : 153,
         "mode": "heat", //heat cool or off
         "hys" : 4,
@@ -10,7 +10,7 @@ let initialClientData = {
         "stirSpeed" : 10,
     },
     'Ferm1' : {
-        "batch" : null,
+        "batch" : '',
         "setTemp" : 77,
         "mode": "cool", //cool or off
         "hys" : 1,
@@ -18,7 +18,7 @@ let initialClientData = {
         "stirSpeed" : 10,
     },
     'Ferm2' : {
-        "batch" : null,
+        "batch" : '',
         "setTemp" : 83,
         "mode": "off", //cool or off
         "hys" : 2,
@@ -26,7 +26,7 @@ let initialClientData = {
         "stirSpeed" : 10,
     },
     'Still' : {
-        "batch" : null,
+        "batch" : '',
         "setTemp" : 182,
         "mode": "heat", //heat, cool, or off
         "hys" : 1,

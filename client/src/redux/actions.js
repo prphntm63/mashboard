@@ -30,3 +30,7 @@ export const deselectComponent = (component) => ({
     type : DESELECT_COMPONENT,
     component
 })
+
+export const deselectAll = () => ({
+    type : DESELECT_COMPONENT
+})
