@@ -10,7 +10,8 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" \"node socketIoData.js\" \"node historicData.js\"",
     "initialize": "npx knex migrate:latest",
     "initializeData": "npx knex migrate:latest && npx knex seed:run",
-    "postinstall": "cd client && npm install"
+    "postinstall": "cd client && npm install",
+    "start" : "node server.js"
   },
   "repository": {
     "type": "git",
