@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import { updateUser } from './../redux/actions'
+import { updateUser, deselectAll } from './../redux/actions'
 import {Button, Modal, Form, Navbar, Nav, DropdownButton, Dropdown} from 'react-bootstrap'
 
 class MainNavbar extends Component {
@@ -75,6 +75,7 @@ class MainNavbar extends Component {
                     lastName : null,
                     email : null
                 })
+                this.props.deselectAll()
             } else {
                 window.alert('Logout Failed!')
             }
@@ -138,7 +139,8 @@ const mapStateToProps = (state) => ({
 })
   
 const mapDispatchToProps = {
-    updateUser
+    updateUser,
+    deselectAll
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavbar);

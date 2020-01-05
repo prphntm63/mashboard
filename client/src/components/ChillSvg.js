@@ -9,11 +9,11 @@ const ChillSvg = (props) => {
     } else if (props.mode === "cool") {
         stroke = "#0000ff"
     } else if (props.mode === "run") {
-        stroke = "#00ff00"
+        stroke = "#0000ff"
     }
     
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.97 57.37" fill={fill} stroke={stroke} strokeMiterlimit={10} style={{width: "40%"}}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.97 57.37" fill={fill} stroke={stroke} strokeMiterlimit={10} style={{ height: "60%", maxHeight : "150px", marginTop : "100px"}}>
             <title>CHILL OUT</title>
             <g id="chillSvgDiagram">
                 <rect className="cls-1" x="0.5" y="0.5" width="58.97" height="56.37"/>
@@ -23,3 +23,5 @@ const ChillSvg = (props) => {
 }
 
 export default ChillSvg
+
+//was width:40%

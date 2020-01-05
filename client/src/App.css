@@ -7,24 +7,31 @@ body {
 .App {
   display: flex;
   flex-direction: column;
-  height: 100%;
-}
-
-/* .main-nav {
-  height: 5vh;
-} */
-
-.grow-container {
-  height: 100%;
-  min-height: 100%;
-	display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  height: 100vh;
 }
 
 .dashboard {
-  min-height: 400px;
   flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.selected-component {
+  display: inline-block;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  min-height: 1px;
+  transition: height 200ms;
+  width: 100%;
+}
+
+.selected-card {
+  width : 100%;
+}
+
+.link-style:hover {
+  cursor: pointer;
 }
 
 .badge-warning {
@@ -62,4 +69,12 @@ body {
   text-transform: uppercase;
   font-weight: bold;
   font-size: calc(8px + .5vmin);
+}
+
+.card {
+  background-color: #FBB040;
+}
+
+.card-body {
+  background-color: white;
 }

@@ -15,59 +15,67 @@ class Dashboard extends Component {
 
     handleSelectProcess = (evt) => {
         evt.preventDefault()
-        this.props.selectComponent(evt.currentTarget.getAttribute('processlabel'))
+        if (this.props.user.id) {
+            this.props.selectComponent(evt.currentTarget.getAttribute('processlabel'))
+        }
     }
 
     render = () => {
 
         return(
-            <div className="d-flex flex-row dashboard">
+            <div className="d-flex flex-row dashboard h-100">
                 {processes.map(currentProcess => (
-                    <div key={`dashboard-${currentProcess}`} className="d-flex flex-column dashboard-item justify-content-between mb-3 pt-0 mt-0" style={{width : `${100/processes.length}%`}}>
-                        <div className="d-flex flex-column justify-content-center pt-0 mt-0">
-                            <div className="text-center mt-0" style={{backgroundColor : this.props.selectedComponent[currentProcess] ? "#FBB040" : "#cccccc", fontSize : "26px"}}>{currentProcess.toUpperCase()}</div>
-                            {currentProcess === "Chiller" ? 
-                                (<ChillerParams {...this.props} currentProcess={currentProcess}/>) 
-                            : 
-                                (<ControllerParams {...this.props} currentProcess={currentProcess}/>)
-                            }
-                        </div>
-                        <div className="text-center mt-5" processlabel={currentProcess} onClick={this.handleSelectProcess}>
-                            {{
-                                "Mash": (
-                                    <MashSvg 
-                                        mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                        selected={this.props.selectedComponent[currentProcess]}
-                                    />
-                                ),
-                                "Ferm1": (
-                                    <FermSvg 
-                                        mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                        selected={this.props.selectedComponent[currentProcess]}
-                                    />
-                                ),
-                                "Ferm2": (
-                                    <FermSvg 
-                                        mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                        selected={this.props.selectedComponent[currentProcess]}
-                                    />
-                                ),
-                                "Still": (
-                                    <StillSvg 
-                                        mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                        selected={this.props.selectedComponent[currentProcess]}
-                                    />
-                                ),
-                                "Chiller": (
-                                    <ChillSvg 
-                                        mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                        selected={this.props.selectedComponent[currentProcess]}
-                                    />
-                                ),
-                                default: (
-                                    <div />
-                                )
-                            }[currentProcess]}
+                    <div key={`dashboard-${currentProcess}`} className="d-flex flex-column dashboard-item justify-content-between mb-3 pt-0 mt-0 h-100" style={{width : `${100/processes.length}%`}}>
+                        <div className="text-center mt-0 link-style" style={{backgroundColor : this.props.selectedComponent[currentProcess] ? "#FBB040" : "#cccccc", fontSize : "22px"}} processlabel={currentProcess} onClick={this.handleSelectProcess}>{currentProcess.toUpperCase()}</div>
+                        <div className="my-auto d-flex flex-column justify-content-between h-100" >
+                            <div className="d-flex flex-column justify-content-center pt-0 mt-0">
+                                {currentProcess === "Chiller" ? 
+                                    (<ChillerParams {...this.props} currentProcess={currentProcess}/>) 
+                                : 
+                                    (<ControllerParams {...this.props} currentProcess={currentProcess}/>)
+                                }
+                            </div>
+                            <div className="text-center mt-3 mb-auto flex-grow-1 link-style" processlabel={currentProcess} onClick={this.handleSelectProcess} >
+                                {{
+                                    "Mash": (
+                                        <MashSvg 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            selected={this.props.selectedComponent[currentProcess]}
+                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
+                                        />
+                                    ),
+                                    "Ferm1": (
+                                        <FermSvg 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            selected={this.props.selectedComponent[currentProcess]}                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
+
+                                        />
+                                    ),
+                                    "Ferm2": (
+                                        <FermSvg 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            selected={this.props.selectedComponent[currentProcess]}                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
+
+                                        />
+                                    ),
+                                    "Still": (
+                                        <StillSvg 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            selected={this.props.selectedComponent[currentProcess]}                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
+
+                                        />
+                                    ),
+                                    "Chiller": (
+                                        <ChillSvg 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            selected={this.props.selectedComponent[currentProcess]}
+                                        />
+                                    ),
+                                    default: (
+                                        <div />
+                                    )
+                                }[currentProcess]}
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -77,20 +85,20 @@ class Dashboard extends Component {
 }
 
 const ControllerParams = (props) => (
-    <div className="mt-4" style={{padding : "0% 25%", fontSize : "18px"}}>
+    <div className="mt-4" style={{padding : "0% 25%", fontSize : "16px"}}>
         <Row>
-            <Col xs={8}>BATCH</Col>
+            <Col xs={8} className="px-0 pr-3">BATCH</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4}>
-                <Badge pill variant="warning" className="w-100">
+            <Col xs={4} className="px-0">
+                <Badge pill variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? "warning" : "light") : "light"} className="w-100">
                     {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? props.streamData[props.currentProcess].batch : "N/A") : props.clientData[props.currentProcess].batch}
                 </Badge>
             </Col>
         </Row>
         <Row>
-            <Col xs={8}>SET TEMP</Col>
+            <Col xs={8} className="px-0 pr-3">SET TEMP</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4}>
+            <Col xs={4} className="px-0">
                 <Badge pill 
                     variant=
                     {{
@@ -101,24 +109,24 @@ const ControllerParams = (props) => (
                             "primary"
                         ),
                         "off": (
-                            "warning"
+                            "light"
                         ),
                         "run": (
-                            "secondary"
+                            "primary"
                         ),
                         default: (
                             "warning"
                         )
                     }[props.streamData[props.currentProcess] ? props.streamData[props.currentProcess].mode : null]}
                     className="w-100">
-                    {props.streamData[props.currentProcess] ? props.streamData[props.currentProcess].setTemp : props.clientData[props.currentProcess].setTemp}
+                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "OFF" : props.streamData[props.currentProcess].setTemp) : props.clientData[props.currentProcess].setTemp}
                 </Badge>
             </Col>
         </Row>
         <Row>
-            <Col xs={8}>CURRENT TEMP</Col>
+            <Col xs={8} className="px-0 pr-3">TEMP</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4}>
+            <Col xs={4} className="px-0">
                 <Badge pill variant="warning" className="w-100">
                     {props.streamData[props.currentProcess] ? parseFloat(props.streamData[props.currentProcess].currentTemp).toFixed(1) : 'N/A'}
                 </Badge>
@@ -128,29 +136,29 @@ const ControllerParams = (props) => (
 )
 
 const ChillerParams = (props) => (
-    <div className="mt-4" style={{padding : "0% 25%", fontSize : "18px"}}>
+    <div className="mt-4" style={{padding : "0% 25%", fontSize : "16px"}}>
         <Row>
-            <Col xs={8}>SET FREQ</Col>
+            <Col xs={8} className="px-0 pr-3">SET FREQ</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4}>
-                <Badge pill variant="warning" className="w-100">
-                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].setFreq ? props.streamData[props.currentProcess].setFreq : "N/A") : props.clientData[props.currentProcess].setFreq}
+            <Col xs={4} className="px-0">
+                <Badge pill variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "light" : "primary") : "light"} className="w-100">
+                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "OFF" : props.streamData[props.currentProcess].freq) : props.clientData[props.currentProcess].setFreq}
                 </Badge>
             </Col>
         </Row>
         <Row>
-            <Col xs={8}>CURRENT FREQ</Col>
+            <Col xs={8} className="px-0 pr-3">FREQ</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4}>
+            <Col xs={4} className="px-0">
                 <Badge pill variant="warning" className="w-100">
                     {props.streamData[props.currentProcess] ? parseFloat(props.streamData[props.currentProcess].currentFreq).toFixed(1) : 'N/A'}
                 </Badge>
             </Col>
         </Row>
         <Row>
-            <Col xs={8}>POWER</Col>
+            <Col xs={8} className="px-0 pr-3">POWER</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4}>
+            <Col xs={4} className="px-0">
                 <Badge pill variant="warning" className="w-100">
                     {props.streamData[props.currentProcess] ? parseFloat(props.streamData[props.currentProcess].currentPower).toFixed(0) : 'N/A'}
                 </Badge>
@@ -162,7 +170,8 @@ const ChillerParams = (props) => (
 const mapStateToProps = (state) => ({
     clientData : state.clientdata,
     streamData : state.streamdata,
-    selectedComponent : state.selectedComponent
+    selectedComponent : state.selectedComponent,
+    user : state.user
 })
 
 const mapDispatchToProps = {

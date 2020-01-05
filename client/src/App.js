@@ -56,7 +56,7 @@ class App extends Component {
       <div className="App">
         <MainNavbar />
         <Dashboard />
-        <footer>
+        <div className="selected-component">
             {Object.keys(this.props.selectedComponent).filter(key => {return this.props.selectedComponent[key]}).map(activeKey => 
                 {return activeKey==='Chiller' ? 
                   (<SelectedChillerPane processId={"Chiller"} key={`ActivePane-${activeKey}`}/>)
@@ -65,7 +65,7 @@ class App extends Component {
                 }
               )
             }
-        </footer>
+        </div>
       </div>
     )
   }

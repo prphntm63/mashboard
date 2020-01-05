@@ -1,4 +1,4 @@
-import { SELECT_COMPONENT, DESELECT_COMPONENT } from "./../actionTypes"
+import { SELECT_COMPONENT, DESELECT_COMPONENT, DESELECT_ALL } from "./../actionTypes"
 
 const initialSelectedComponentState = {}
 
@@ -16,6 +16,10 @@ export default (state = initialSelectedComponentState, action) => {
             // if (Object.keys(newState).length) {
             //     newState[Object.keys(newState).slice(-1).pop()] = true
             // }
+            newState = {}
+            return newState
+        }
+        case DESELECT_ALL: {
             newState = {}
             return newState
         }

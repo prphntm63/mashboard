@@ -4,7 +4,7 @@ import isEqual from "react-fast-compare"
 import { connect } from "react-redux";
 import { updateClientStreamOut, deselectComponent } from '../redux/actions'
 
-import { Jumbotron, Button, Image, Card, Form, Col } from 'react-bootstrap'
+import { Button, Image, Card, Form, Col } from 'react-bootstrap'
 
 class ControllerPane extends Component {
     componentDidUpdate = (prevProps) => {
@@ -19,7 +19,8 @@ class ControllerPane extends Component {
     }
 
     handleParamChange = (evt) => {
-        console.log('Sending Event - ', this.props.processId, evt.target.id, evt.target.value)
+        if (!this.props.user.id) return
+
         let newClientData = {...this.props.clientData}
 
         newClientData[this.props.processId][evt.target.id] = evt.target.value
@@ -42,11 +43,13 @@ class ControllerPane extends Component {
         const clientProcessData = this.props.clientData[this.props.processId]
 
         return (
-            <Jumbotron className='selectedPane'>
-                <Button variant='outline-dark' className='float-right' selectedprocess={this.props.processId} onClick={this.closeProcessWindow}>X</Button>
-                <h2 className='text-left'>{this.props.processId}</h2>
-                <Card className='shadow-lg'>
+            // <Jumbotron className='selectedPane'>
+            //     <Button variant='outline-dark' className='float-right' selectedprocess={this.props.processId} onClick={this.closeProcessWindow}>X</Button>
+            //     <h2 className='text-left'>{this.props.processId}</h2>
+                <Card className='shadow-lg selected-card'>
                     <Card.Body>
+                        <Button variant='outline-dark' className='float-right' selectedprocess={this.props.processId} onClick={this.closeProcessWindow}>X</Button>
+
                         <Form>
                             <Form.Row>
                                 <Form.Group as={Col}>
@@ -78,14 +81,15 @@ class ControllerPane extends Component {
                         </Form>
                     </Card.Body>
                 </Card>
-            </Jumbotron>
+            // </Jumbotron>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
     streamData : state.streamdata,
-    clientData : state.clientdata
+    clientData : state.clientdata,
+    user : state.user
 })
 
 const mapDispatchToProps = {
