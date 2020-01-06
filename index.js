@@ -65,9 +65,10 @@ io.on('connection', function(socket){
             for (key in sendData) {
                 sendData[key].ctime = new Date()
             }
-            // console.log('Sending new data to client...')
+            console.log('Sending new data to client...')
             socket.broadcast.emit('client', sendData)
         })
+        .catch(err => {console.log(err)})
     });
 
     socket.on('clientdata', (data) => {
