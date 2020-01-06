@@ -1,8 +1,13 @@
 // const io = require('socket.io-client')
 // const socket = io.connect('http://localhost:5000', {reconnect: true});
 
-// var socket = require('socket.io-client')('http://localhost:5000');
-var socket = require('socket.io-client')('https://agile-brook-61264.herokuapp.com/');
+if (process.env.NODE_ENV !=='production') {
+    var socket = require('socket.io-client')('http://localhost:5000');
+
+} else {
+    console.log('production build')
+    var socket = require('socket.io-client')('https://www.mashboard.app/');
+}
 
 let processSettings = {
     'Mash' : {

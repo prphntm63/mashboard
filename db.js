@@ -10,8 +10,11 @@ let db = {
 
         for (processKey in controllerData) {
             let writePromise = knex
-            .insert(controllerData[process])
-            .into(`${process}`)
+            .insert(controllerData[processKey])
+            .into(`${processKey}`)
+            .then(() => {
+                console.log(processKey)
+            })
             .catch(err => {
                 console.log(err)
             })
