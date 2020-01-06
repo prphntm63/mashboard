@@ -72,7 +72,7 @@ class ControllerPane extends Component {
                                     <Form.Label>Last Updated</Form.Label>
                                     <Form.Control  className="rounded-pill gold"  size="lg"  type="text" disabled value={controllerProcessData.ctime}></Form.Control>
                                     <Form.Label>Batch</Form.Label>
-                                    <Form.Control  className="rounded-pill gold"  size="lg"  type="text" id={"batch"} value={clientProcessData.batch === 'null' ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
+                                    <Form.Control  className="rounded-pill gold"  size="lg"  type="text" id={"batch"} value={clientProcessData.batch === null ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                 <Form.Label>Hysteresis</Form.Label>

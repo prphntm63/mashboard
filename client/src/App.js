@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client";
 import './App.css';
 
 import { connect } from "react-redux";
-import { updateUser, updateStreamdata } from './redux/actions'
+import { updateUser, updateStreamdata, updateClientStreamOut } from './redux/actions'
 
 import Dashboard from './components/Dashboard';
 import MainNavbar from './components/MainNavbar'
@@ -28,6 +28,29 @@ class App extends Component {
       // console.log('Socket Data Recieved -', clientData)
       this.props.updateStreamdata(clientData)
       this.setState({socketData : clientData})
+
+      var modifiedClientData = {...clientData}
+      let updatedClientData = {}
+
+      for (var processType in modifiedClientData) {
+        if (this.props.clientData[processType]) {
+          updatedClientData[processType] = this.props.clientData[processType]
+        } else {
+          if (processType === "Chiller") {
+            delete modifiedClientData[processType].currentPower
+            delete modifiedClientData[processType].currentFreq
+            delete modifiedClientData[processType].ctime
+          } else {
+            delete modifiedClientData[processType].currentTemp
+            delete modifiedClientData[processType].ctime
+          }
+
+          updatedClientData[processType] = modifiedClientData[processType]
+        }
+      }
+
+      this.props.updateClientStreamOut(updatedClientData)
+
     })
 
     fetch('./api/test')
@@ -76,12 +99,14 @@ class App extends Component {
 const mapStateToProps = (state) => ({
   user : state.user,
   streamData : state.streamdata,
+  clientData :  state.clientdata,
   selectedComponent : state.selectedComponent
 })
 
 const mapDispatchToProps = {
   updateUser,
-  updateStreamdata
+  updateStreamdata,
+  updateClientStreamOut
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

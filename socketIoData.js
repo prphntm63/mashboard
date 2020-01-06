@@ -1,9 +1,11 @@
 // const io = require('socket.io-client')
 // const socket = io.connect('http://localhost:5000', {reconnect: true});
+console.log(process.env.NODE_ENV === 'development', process.env.NODE_ENV, 'development')
 
-if (process.env.NODE_ENV !=='production') {
+
+if (process.env.NODE_ENV === 'development') {
     var socket = require('socket.io-client')('http://localhost:5000');
-
+    // var socket = require('socket.io-client')('http://www.mashboard.app/');
 } else {
     console.log('production build')
     var socket = require('socket.io-client')('https://www.mashboard.app/');

@@ -4,6 +4,7 @@ const MashSvg = (props) => {
     let fill = !props.selected ? "#ffffff" : "#fbb040"
     let stroke = "#000000"
     let impeller = "/img/impeller-black"
+    let warningText =""
 
     if (props.mode === "heat") {
         stroke = "#ff0000"
@@ -21,13 +22,21 @@ const MashSvg = (props) => {
     } else {
         impeller += ".png"
     }
+
+    if (!props.connected) {
+        warningText = "NO CONNECTION"
+        stroke = "#333333"
+        fill = "#dddddd"
+    }
     
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.7 73.44" fill={fill} stroke={stroke} strokeMiterlimit={10} style={{ height: "60%", maxHeight : "200px", marginTop: "50px"}}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.7 73.44"  strokeMiterlimit={10} style={{ height: "60%", maxHeight : "200px", marginTop: "50px"}}>
             <title>MASH OUT</title>
             <g id="mashSvgDiagram">
-                <polygon className="cls-1" points="0.5 0.5 0.5 55.98 0.5 72.94 5.72 72.94 5.72 55.98 66.98 55.98 66.98 72.94 72.2 72.94 72.2 55.98 72.2 0.5 0.5 0.5"/>
-                <image href={impeller} x="25%" y="2%" height="130%" width="50%"/>
+                <polygon fill={fill} stroke={stroke} className="cls-1" points="0.5 0.5 0.5 55.98 0.5 72.94 5.72 72.94 5.72 55.98 66.98 55.98 66.98 72.94 72.2 72.94 72.2 55.98 72.2 0.5 0.5 0.5"/>
+                <text x="10%" y="20" width="90%" style={{fontSize : "45%", fill : "black"}}>{warningText}</text>
+                {props.connected ? (<image href={impeller} x="25%" y="2%" height="130%" width="50%"/>) 
+                : (<image href="/img/no-connection.png" x="35%" y="2%" height="100%" width="30%"/>)}
             </g>
         </svg>
     )

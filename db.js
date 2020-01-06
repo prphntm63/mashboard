@@ -9,12 +9,13 @@ let db = {
         let writePromises = []
 
         for (processKey in controllerData) {
+            if (controllerData[processKey].batch === '') {
+                controllerData[processKey].batch = null
+            }
+
             let writePromise = knex
             .insert(controllerData[processKey])
             .into(`${processKey}`)
-            .then(() => {
-                console.log(processKey)
-            })
             .catch(err => {
                 console.log(err)
             })

@@ -10,11 +10,14 @@ import StillSvg from './StillSvg'
 import ChillSvg from './ChillSvg'
 
 const processes = ["Mash", "Ferm1", "Ferm2", "Still", "Chiller"]
+const outlineStyle = {opacity : "30%"}
 
 class Dashboard extends Component {
 
     handleSelectProcess = (evt) => {
         evt.preventDefault()
+        if (!this.props.streamData[evt.currentTarget.getAttribute('processlabel')]) return
+
         if (this.props.user.id) {
             this.props.selectComponent(evt.currentTarget.getAttribute('processlabel'))
         }
@@ -39,36 +42,41 @@ class Dashboard extends Component {
                                 {{
                                     "Mash": (
                                         <MashSvg 
-                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : "off"} 
                                             selected={this.props.selectedComponent[currentProcess]}
-                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
+                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : false}
+                                            connected={this.props.streamData[currentProcess]}
                                         />
                                     ),
                                     "Ferm1": (
                                         <FermSvg 
-                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                            selected={this.props.selectedComponent[currentProcess]}                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
-
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : "off"} 
+                                            selected={this.props.selectedComponent[currentProcess]}                                            
+                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : false}
+                                            connected={this.props.streamData[currentProcess]}
                                         />
                                     ),
                                     "Ferm2": (
                                         <FermSvg 
-                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                            selected={this.props.selectedComponent[currentProcess]}                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
-
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : "off"} 
+                                            selected={this.props.selectedComponent[currentProcess]}                                            
+                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : false}
+                                            connected={this.props.streamData[currentProcess]}
                                         />
                                     ),
                                     "Still": (
                                         <StillSvg 
-                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
-                                            selected={this.props.selectedComponent[currentProcess]}                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : this.props.clientData[currentProcess].stir}
-
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : "off"} 
+                                            selected={this.props.selectedComponent[currentProcess]}                                            
+                                            stir={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].stir : false}
+                                            connected={this.props.streamData[currentProcess]}
                                         />
                                     ),
                                     "Chiller": (
                                         <ChillSvg 
-                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : this.props.clientData[currentProcess].mode} 
+                                            mode={this.props.streamData[currentProcess] ? this.props.streamData[currentProcess].mode : "off"} 
                                             selected={this.props.selectedComponent[currentProcess]}
+                                            connected={this.props.streamData[currentProcess]}
                                         />
                                     ),
                                     default: (
@@ -90,15 +98,21 @@ const ControllerParams = (props) => (
             <Col xs={8} className="px-0 pr-3">BATCH</Col>
             {/* <Col s={4}>34.15</div> */}
             <Col xs={4} className="px-0">
-                <Badge pill variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? "warning" : "light") : "light"} className="w-100">
-                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? props.streamData[props.currentProcess].batch : "N/A") : props.clientData[props.currentProcess].batch}
+                <Badge pill 
+                variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? "warning" : "light") : "light"} className="w-100"
+                style={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch === (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].batch : 'null') ? {} : outlineStyle) : outlineStyle}
+                
+                >
+                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? props.streamData[props.currentProcess].batch : "N/A") : "N/A"}
                 </Badge>
             </Col>
         </Row>
         <Row>
             <Col xs={8} className="px-0 pr-3">SET TEMP</Col>
             {/* <Col s={4}>34.15</div> */}
-            <Col xs={4} className="px-0">
+            <Col xs={4} className="px-0"
+            
+            >
                 <Badge pill 
                     variant=
                     {{
@@ -118,8 +132,9 @@ const ControllerParams = (props) => (
                             "warning"
                         )
                     }[props.streamData[props.currentProcess] ? props.streamData[props.currentProcess].mode : null]}
+                    style={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].setTemp === (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].setTemp : 'null') ? {} : outlineStyle) : outlineStyle}
                     className="w-100">
-                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "OFF" : props.streamData[props.currentProcess].setTemp) : props.clientData[props.currentProcess].setTemp}
+                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "OFF" : (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].setTemp : 'N/A')) : (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].setTemp : "N/A")}
                 </Badge>
             </Col>
         </Row>
@@ -141,8 +156,11 @@ const ChillerParams = (props) => (
             <Col xs={8} className="px-0 pr-3">SET FREQ</Col>
             {/* <Col s={4}>34.15</div> */}
             <Col xs={4} className="px-0">
-                <Badge pill variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "light" : "primary") : "light"} className="w-100">
-                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "OFF" : props.streamData[props.currentProcess].freq) : props.clientData[props.currentProcess].setFreq}
+                <Badge pill 
+                variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "light" : "primary") : "light"} className="w-100"
+                style={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].freq === (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].freq : 'null') ? {} : outlineStyle) : outlineStyle}
+                >
+                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].mode === "off" ? "OFF" : (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].freq : 'N/A')) : (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].freq : "N/A")}
                 </Badge>
             </Col>
         </Row>
@@ -179,3 +197,5 @@ const mapDispatchToProps = {
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+
+// style={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].setTemp === props.clientData[props.currentProcess].setTemp ? {} : outlineStyle) : outlineStyle}
