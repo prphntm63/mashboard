@@ -4,13 +4,16 @@
   "description": "Full stack application for brewing and distilling monitoring and control",
   "main": "index.js",
   "scripts": {
+    "build": "cd client && npm run build",
+    "heroku-postbuild" : "knex migrate:latest && knex seed:run && cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd client && npm start",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" \"node socketIoData.js\" \"node historicData.js\"",
     "initialize": "npx knex migrate:latest",
     "initializeData": "npx knex migrate:latest && npx knex seed:run",
-    "postinstall": "cd client && npm install"
+    "postinstall": "cd client && npm install",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,7 @@
   "dependencies": {
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "knex": "^0.20.4",
@@ -48,5 +52,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "engines": {
+    "node": "12.14.0"
   }
 }

@@ -11,7 +11,9 @@ class ControllerPane extends Component {
         if (!isEqual(prevProps.clientData[this.props.processId], this.props.clientData[this.props.processId])) {
             console.log('sending event')
 
-            const socket = socketIOClient("http://127.0.0.1:5000")
+            const socket = socketIOClient()
+            // const socket = socketIOClient("http://127.0.0.1:5000")
+
             socket.on('connect', () => {
                 socket.emit('clientdata', this.props.clientData)
             })
@@ -27,7 +29,9 @@ class ControllerPane extends Component {
 
         this.props.updateClientStreamOut(newClientData)
 
-        const socket = socketIOClient("http://127.0.0.1:5000")
+        const socket = socketIOClient()
+        // const socket = socketIOClient("http://127.0.0.1:5000")
+
         socket.on('connect', () => {
             socket.emit('clientdata', newClientData)
         })

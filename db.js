@@ -1,4 +1,4 @@
-const environment = process.env.ENVIRONMENT || 'development'
+const environment = process.env.NODE_ENV || 'development'
 const config = require('./knexfile.js')[environment];
 const knex = require('knex')(config);
 const bcrypt = require('bcrypt');
@@ -10,8 +10,11 @@ let db = {
 
         for (processKey in controllerData) {
             let writePromise = knex
-            .insert(controllerData[process])
-            .into(`${process}`)
+            .insert(controllerData[processKey])
+            .into(`${processKey}`)
+            .then(() => {
+                console.log(processKey)
+            })
             .catch(err => {
                 console.log(err)
             })

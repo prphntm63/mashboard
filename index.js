@@ -15,6 +15,10 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+if (process.env.NODE_ENV !== "production" ){
+    require('dotenv').config();
+}
+
 passport.use(new LocalStrategy((username, password, done) => {
     db.authenticateUser(username, password)
     .then(user => {
@@ -51,6 +55,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+io.set('origins', '*:*');
 io.on('connection', function(socket){
 
     socket.on('controllerdata', (controllerdata)=>{

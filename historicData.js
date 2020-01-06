@@ -40,6 +40,7 @@ function generateDatapointHistory() {
             .delete()
             .return(processSetting)
             .then((processSetting) => {
+                return 
                 let processPromises = []
                 for (let timestep=numDaysHistoricData*24*60*(60/dataSpacing); timestep >0 ; timestep--) {
                     if (processSetting != 'Chiller') {

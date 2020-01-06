@@ -89,7 +89,7 @@ class MainNavbar extends Component {
                     <Navbar.Brand href="/">
                         <img
                             alt=""
-                            src="/img/MASHBOARD_Logo.svg"
+                            src="/img/MASHBOARD_logo.svg"
                             height="30px"
                             className="d-inline-block align-top"
                         />
