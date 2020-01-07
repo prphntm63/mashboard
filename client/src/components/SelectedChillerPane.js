@@ -18,13 +18,6 @@ import {XYPlot,
     makeHeightFlexible} from 'react-vis';
 
 const FlexibleXYPlot = makeHeightFlexible(makeWidthFlexible(XYPlot));
-
-// const processData = (data) => {
-//     return data.map(e => ({
-//         x: e.currentPower,
-//         y: e.currentFreq
-//     }));
-// };
 class ControllerPane extends Component {
 
     componentDidUpdate = (prevProps) => {
@@ -76,11 +69,8 @@ class ControllerPane extends Component {
 
         console.log(mappedGraphData)
 
-        // dataPoint : { currentFreq: x, currentPower: y }
-        // MW suggests: this.props.graphdata[processType].map(dataPoint => {graph(dataPoint.ctime, dataPoint.currentTemp)})
+        // chiller dataPoint : { currentFreq: x, currentPower: y }
 
-        // chiller x and y: currentFreq, currentPower
-         
         // console.log('currentFreq: ', controllerProcessData.currentFreq)
         // console.log('currentPower: ', controllerProcessData.currentPower)
 
