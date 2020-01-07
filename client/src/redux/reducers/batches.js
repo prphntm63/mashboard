@@ -19,7 +19,7 @@ export default (state = initialClientData, action) => {
             return newState
         }
         case SET_BATCH_DATA : {
-            newState[action.id] = action.graphData
+            newState[action.id] = action.batchData.batch
             return newState
         }
         default: {

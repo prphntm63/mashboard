@@ -3,13 +3,14 @@
 console.log(process.env.NODE_ENV === 'development', process.env.NODE_ENV, 'development')
 
 
-if (process.env.NODE_ENV === 'development') {
-    var socket = require('socket.io-client')('http://localhost:5000');
-    // var socket = require('socket.io-client')('http://www.mashboard.app/');
-} else {
-    console.log('production build')
-    var socket = require('socket.io-client')('https://www.mashboard.app/');
-}
+// if (process.env.NODE_ENV === 'development') {
+//     var socket = require('socket.io-client')('http://localhost:5000');
+//     // var socket = require('socket.io-client')('http://www.mashboard.app/');
+// } else {
+//     console.log('production build')
+//     var socket = require('socket.io-client')('https://www.mashboard.app/');
+// }
+var socket = require('socket.io-client')('http://localhost:5000');
 
 let processSettings = {
     'Mash' : {

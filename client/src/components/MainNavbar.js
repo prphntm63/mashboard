@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import { updateUser, deselectAll, setBatches } from './../redux/actions'
 import {Button, Modal, Form, Navbar, Nav, DropdownButton, Dropdown} from 'react-bootstrap'
 
@@ -166,9 +167,17 @@ class MainNavbar extends Component {
                             (<Button variant="outline-dark" onClick={this.openModal}>Login</Button>)
                             :
                             (<DropdownButton variant="outline-dark" title={this.props.user.firstName} id="nav-dropdown" alignRight>
+                                <LinkContainer to="/" exact>
+                                    <Dropdown.Item>Dashboard</Dropdown.Item>
+                                </LinkContainer>
+                                <LinkContainer to="/settings">
+                                    <Dropdown.Item>Settings</Dropdown.Item>
+                                </LinkContainer>
+                                <Dropdown.Divider />
                                 <Dropdown.Item onClick={this.showBatchModal}>Add Batch</Dropdown.Item>
-                                <Dropdown.Item href="/batches">Batches</Dropdown.Item>
-                                <Dropdown.Item href="/settings">Settings</Dropdown.Item>
+                                <LinkContainer to="/batches">
+                                    <Dropdown.Item>Batches</Dropdown.Item>
+                                </LinkContainer>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={this.handleLogout}>Logout</Dropdown.Item>
                             </DropdownButton>)

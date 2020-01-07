@@ -61,8 +61,8 @@ export const addBatchDataPoint = (batchId, dataPoint) => ({
     dataPoint
 })
 
-export const setBatchData = (batchId, graphData) => ({
+export const setBatchData = (batchId, batchData) => ({
     id : batchId,
     type : SET_BATCH_DATA,
-    graphData
+    batchData
 })
