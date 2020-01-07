@@ -27,6 +27,15 @@ router.get('/batch/:id', ensureAuthenticated, (req,res) => {
     })
 })
 
+router.post('/batch', ensureAuthenticated, (req,res) => {
+    db.addBatch(req.body)
+    .then(batch => {
+        res.status(200).json({
+            batch
+        })
+    })
+})
+
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

@@ -8,8 +8,12 @@ class MainNavbar extends Component {
         super(props);
         this.state = {
             showModal : false,
+            showBatchModal : false,
             userEntry : null,
             passwordEntry : null,
+            batchEntry : null,
+            batchExist : false,
+            batchDescription : null,
         }
     }
 
@@ -19,6 +23,14 @@ class MainNavbar extends Component {
 
     closeModal = () => {
         this.setState({showModal : false})
+    }
+
+    showBatchModal = () => {
+        this.setState({showBatchModal : true})
+    }
+
+    closebatchModal = () => {
+        this.setState({showBatchModal : false})
     }
 
     handleLogin = (evt) => {
@@ -84,6 +96,58 @@ class MainNavbar extends Component {
         })
     }
 
+    addBatch = (evt) => {
+        evt.preventDefault()
+        this.setState({batchExist : false})
+
+        fetch('./api/batch')
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                return null
+            }
+        })
+        .then(responseJson => {
+            if (responseJson) {
+                this.props.setBatches(responseJson.batches)
+            }
+        })
+        .then(() => {
+            if (Object.keys(this.props.batches).findIndex(batch => {return this.props.batches[batch].name === this.state.batchEntry}) >= 0) {
+                this.setState({
+                    batchExist : true
+                })
+            } else {
+                console.log(this.state.batchEntry, this.state.batchDescription)
+                fetch('/api/batch', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name : this.state.batchEntry,
+                        description : this.state.batchDescription
+                    })
+                })
+                .then(returnData => {
+                    if (returnData.status === 200) {
+                        return returnData.json()
+                    } else {
+                        return null
+                    }
+                })
+                .then(newbatch => {
+                    let newBatches = {...this.props.batches}
+                    newBatches[newbatch.id] = newbatch
+                    this.props.setBatches(newBatches)
+                })
+                this.closebatchModal()
+            }
+        })
+    }
+
     render() {
         return (
             <>
@@ -102,6 +166,7 @@ class MainNavbar extends Component {
                             (<Button variant="outline-dark" onClick={this.openModal}>Login</Button>)
                             :
                             (<DropdownButton variant="outline-dark" title={this.props.user.firstName} id="nav-dropdown" alignRight>
+                                <Dropdown.Item onClick={this.showBatchModal}>Add Batch</Dropdown.Item>
                                 <Dropdown.Item href="/batches">Batches</Dropdown.Item>
                                 <Dropdown.Item href="/settings">Settings</Dropdown.Item>
                                 <Dropdown.Divider />
@@ -130,6 +195,25 @@ class MainNavbar extends Component {
                         <Button variant="outline-dark" style={{backgroundColor : "#FBB040"}} onClick={this.handleLogin}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
+                <Modal show={this.state.showBatchModal} onHide={this.closebatchModal}>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label>Batch Name</Form.Label>
+                                <Form.Control isInvalid={this.state.batchExist} type="text" placeholder="Batch Name" value={this.state.batchEntry ? this.state.batchEntry : ''} onChange={(evt) => {this.setState({batchEntry : evt.target.value})} } />
+                                <Form.Control.Feedback type="invalid">Batch name already exists</Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Batch Name</Form.Label>
+                                <Form.Control isInvalid={this.state.batchExist} as="textarea" rows="2" placeholder="Batch Name" value={this.state.batchDescription ? this.state.batchDescription : ''} onChange={(evt) => {this.setState({batchDescription : evt.target.value})} } />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="outline-secondary" onClick={this.closebatchModal}>Close</Button>
+                        <Button variant="outline-dark" style={{backgroundColor : "#FBB040"}} onClick={this.addBatch}>Submit</Button>
+                    </Modal.Footer>
+                </Modal>
             </>
         )
     }
@@ -137,7 +221,8 @@ class MainNavbar extends Component {
 
 const mapStateToProps = (state) => ({
     user : state.user,
-    streamData : state.streamdata
+    streamData : state.streamdata,
+    batches : state.batches
 })
   
 const mapDispatchToProps = {
