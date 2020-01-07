@@ -4,6 +4,8 @@ const knex = require('knex')(config);
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+const processTypes = ['Mash', 'Ferm1', 'Ferm2', 'Still', 'Chiller']
+
 let db = {
     writeControllerData : function(controllerData) {
         let writePromises = []
@@ -71,6 +73,52 @@ let db = {
             })
 
             return passwordPromise
+        })
+    },
+
+    getBatches : function() {
+        return knex
+        .from('Batches')
+        .select('id', 'name', 'description', 'ctime')
+        .then(batches => {
+            let batchesObject = {};
+            batches.forEach(batch => {
+                batchesObject[batch.id] = batch
+            })
+
+            return batchesObject
+        })
+    },
+
+    getBatch : function(batchId) {
+        return knex('Batches')
+        .select('*')
+        .where({id : batchId})
+        .then(batchRows => {
+            return batchRows[0]
+        })
+        .then(batch => {
+            let processPromises = []
+
+            processTypes.forEach(processType => {
+                processPromises.push(
+                    knex(processType)
+                    .return('*')
+                    .where({"batch" : batchId})
+                    .then(processDataRows => {
+                        return processDataRows[0]
+                    })
+                )
+            })
+
+            return Promise.all(processPromises)
+            .then(processPromiseData => {
+                processPromiseData.forEach((processData, idx) => {
+                    batch[processTypes[idx]] = processData
+                })
+
+                return batch
+            })
         })
     }
 }

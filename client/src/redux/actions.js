@@ -3,7 +3,12 @@ import {
     UPDATE_STREAMDATA, 
     UPDATE_CLIENT_STREAM_OUT, 
     SELECT_COMPONENT,
-    DESELECT_COMPONENT
+    DESELECT_COMPONENT,
+    ADD_DATA_POINT, 
+    SET_GRAPH_DATA,
+    SET_BATCHES,
+    ADD_BATCH_DATA_POINT,
+    SET_BATCH_DATA
 } from './actionTypes'
 
 export const updateUser = (userData) => ({
@@ -33,4 +38,31 @@ export const deselectComponent = (component) => ({
 
 export const deselectAll = () => ({
     type : DESELECT_COMPONENT
+})
+
+export const addDataPoint = (dataPoint) => ({
+    type : ADD_DATA_POINT,
+    dataPoint
+})
+
+export const setGraphData = (graphData) => ({
+    type : SET_GRAPH_DATA,
+    graphData
+})
+
+export const setBatches = (batches) => ({
+    type : SET_BATCHES,
+    batches
+})
+
+export const addBatchDataPoint = (batchId, dataPoint) => ({
+    id : batchId,
+    type : ADD_BATCH_DATA_POINT,
+    dataPoint
+})
+
+export const setBatchData = (batchId, graphData) => ({
+    id : batchId,
+    type : SET_BATCH_DATA,
+    graphData
 })

@@ -90,7 +90,14 @@ app.post('/login', function(req, res, next) {
 
       req.logIn(user, function(err) {
         if (err) { return next(err); }
-        return res.status(200).json(user)
+        db.getBatches()
+        .then(batches => {
+            return res.status(200).json({
+                user : user,
+                batches : batches
+            })
+        })
+        
       });
     })(req, res, next);
 });

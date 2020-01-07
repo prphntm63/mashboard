@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client";
 import './App.css';
 
 import { connect } from "react-redux";
-import { updateUser, updateStreamdata, updateClientStreamOut } from './redux/actions'
+import { updateUser, updateStreamdata, updateClientStreamOut, addDataPoint, setBatches } from './redux/actions'
 
 import Dashboard from './components/Dashboard';
 import MainNavbar from './components/MainNavbar'
@@ -26,10 +26,11 @@ class App extends Component {
 
     socket.on('client', clientData => {
       // console.log('Socket Data Recieved -', clientData)
+      this.props.addDataPoint(clientData)
       this.props.updateStreamdata(clientData)
       this.setState({socketData : clientData})
 
-      var modifiedClientData = {...clientData}
+      let modifiedClientData = {...clientData}
       let updatedClientData = {}
 
       for (var processType in modifiedClientData) {
@@ -53,7 +54,7 @@ class App extends Component {
 
     })
 
-    fetch('./api/test')
+    fetch('./api/batch')
     .then(response => {
       console.log('API call status', response.status)
       if (response.status === 200) {
@@ -64,9 +65,10 @@ class App extends Component {
     })
     .then(responseJson => {
       if (responseJson) {
-        this.props.updateUser(responseJson)
+        this.props.updateUser(responseJson.user)
+        this.props.setBatches(responseJson.batches)
         this.setState({
-          response : responseJson.success
+          response : true
         })
       } else {
         this.setState({
@@ -106,7 +108,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   updateUser,
   updateStreamdata,
-  updateClientStreamOut
+  updateClientStreamOut,
+  addDataPoint,
+  setBatches
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
