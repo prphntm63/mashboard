@@ -7,22 +7,21 @@ router.get('/test', ensureAuthenticated, (req, res) => {
     res.status(200).json(req.user)
 })
 
+router.get('/batch/:id', ensureAuthenticated, (req,res) => {
+    db.getBatch(req.params.id)
+    .then(batch => {
+        res.status(200).json({
+            batch : batch
+        })
+    })
+})
+
 router.get('/batch', ensureAuthenticated, (req,res) => {
     db.getBatches()
     .then(batches => {
         res.status(200).json({
             user : req.user,
             batches : batches
-        })
-    })
-})
-
-router.get('/batch/:id', ensureAuthenticated, (req,res) => {
-    db.getBatch(req.params.id)
-    .then(batch => {
-        res.status(200).json({
-            user : req.user,
-            batch : batch
         })
     })
 })

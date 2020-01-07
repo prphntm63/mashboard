@@ -9,7 +9,7 @@ import { Button, Image, Card, Form, Col } from 'react-bootstrap'
 class ControllerPane extends Component {
     componentDidUpdate = (prevProps) => {
         if (!isEqual(prevProps.clientData[this.props.processId], this.props.clientData[this.props.processId])) {
-            console.log('sending event')
+            // console.log('sending event')
 
             const socket = socketIOClient()
             // const socket = socketIOClient("http://127.0.0.1:5000")

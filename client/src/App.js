@@ -5,7 +5,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { updateUser, updateStreamdata, updateClientStreamOut, addDataPoint, setBatches } from './redux/actions'
+import { updateUser, updateStreamdata, updateClientStreamOut, addDataPoint, setBatches, addBatchDataPoint } from './redux/actions'
 
 import Dashboard from './components/Dashboard';
 import MainNavbar from './components/MainNavbar'
@@ -14,6 +14,8 @@ import Settings from './components/Settings'
 
 import SelectedControllerPane from './components/SelectedControllerPane';
 import SelectedChillerPane from './components/SelectedChillerPane'
+
+const processTypesConst = ['Mash', 'Ferm1', 'Ferm2', 'Still']
 
 class App extends Component {
   constructor(props) {
@@ -29,10 +31,17 @@ class App extends Component {
     const socket = socketIOClient();
 
     socket.on('client', clientData => {
+      if (!clientData) return
       // console.log('Socket Data Recieved -', clientData)
       this.props.addDataPoint(clientData)
       this.props.updateStreamdata(clientData)
       this.setState({socketData : clientData})
+
+      processTypesConst.forEach(processType => {
+        if (clientData[processType].batch) {
+          this.props.addBatchDataPoint(clientData[processType].batch, clientData[processType])
+        }
+      })
 
       let modifiedClientData = {...clientData}
       let updatedClientData = {}
@@ -126,7 +135,8 @@ const mapDispatchToProps = {
   updateStreamdata,
   updateClientStreamOut,
   addDataPoint,
-  setBatches
+  setBatches,
+  addBatchDataPoint
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

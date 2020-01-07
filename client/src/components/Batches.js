@@ -1,19 +1,37 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import {ListGroup} from 'react-bootstrap'
+import {ListGroup, Table, Spinner} from 'react-bootstrap'
 
-import { selectComponent } from './../redux/actions'
+import { setBatchData } from './../redux/actions'
 
 class Batches extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBatchId : null
+            selectedBatchId : null,
+            loadingState : null
         }
     }
 
     handleBatchSelect = (evt) => {
-        this.setState({selectedBatchId : evt.target.getAttribute('batchid')})
+        this.setState({loadingState : true})
+        let batchId = evt.target.getAttribute('batchid')
+        fetch(`/api/batch/${batchId}`)
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                this.setState({loadingState : false})
+                return null
+            }
+        })
+        .then(batchData => {
+            if (!batchData) return
+            this.props.setBatchData(batchId, batchData)
+            this.setState({selectedBatchId : batchId})
+            this.setState({loadingState : null})
+        })
+        
     }
 
     render = () => (
@@ -29,14 +47,49 @@ class Batches extends Component {
                         )}
                     </ListGroup>
                 </div>
-                <div className="flex-grow-1 h-100">
+                <div className="flex-grow-1 h-100 pl-3" style={{overflowY : "auto"}}>
                     {this.state.selectedBatchId ? 
                     (<>
-                        <h3>{this.props.batches[this.state.selectedBatchId].name}</h3>
+                        <h3>{this.props.batches[this.state.selectedBatchId].name.toUpperCase()}</h3>
                         <h5>{this.props.batches[this.state.selectedBatchId].description}</h5>
+
+                        {['Mash', 'Ferm1', 'Ferm2', 'Still'].map(processType => (
+                            <div key={processType}>
+                                <h4>{processType.toUpperCase()}</h4>
+                                {this.props.batches[this.state.selectedBatchId][processType].length ? (
+                                    <Table>
+                                        <thead>
+                                            <tr>
+                                                {Object.keys(this.props.batches[this.state.selectedBatchId][processType][0]).map(key => (<td key={key}>{key}</td>))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.props.batches[this.state.selectedBatchId][processType].slice(-10).map(processRow => (
+                                                <tr key={processRow.id}>
+                                                    {Object.keys(processRow).map(key => (<td key={key}>{processRow[key]}</td>))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                ) 
+                                : 
+                                (<p>No Data</p>)
+                                }
+                            </div>
+                        ))}
+                        
+                        
                     </>) 
                     : 
-                    (<></>)
+                        (<>{this.state.loadingState ? (
+                            <div className="d-flex mt-5 pt-5 justify-content-center align-content-center">
+                                <Spinner animation="border" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </Spinner>
+                            </div>
+                        ) : (<></>)
+                            }
+                        </>)
                     }
                     
                 </div>
@@ -56,7 +109,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    selectComponent
+    setBatchData
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(Batches);

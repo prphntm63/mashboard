@@ -4,7 +4,7 @@ const knex = require('knex')(config);
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-const processTypes = ['Mash', 'Ferm1', 'Ferm2', 'Still', 'Chiller']
+const processTypes = ['Mash', 'Ferm1', 'Ferm2', 'Still']
 
 let db = {
     writeControllerData : function(controllerData) {
@@ -103,11 +103,9 @@ let db = {
             processTypes.forEach(processType => {
                 processPromises.push(
                     knex(processType)
-                    .return('*')
+                    .returning('*')
                     .where({"batch" : batchId})
-                    .then(processDataRows => {
-                        return processDataRows[0]
-                    })
+                    
                 )
             })
 
