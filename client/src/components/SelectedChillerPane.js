@@ -62,8 +62,9 @@ class ControllerPane extends Component {
 
         // console.log(clientGraphData)
 
-        const mappedGraphData = (clientGraphData.map(e => ({
-            x: e.currentPower,
+        const mappedGraphData = (clientGraphData.slice(-10).map((e, idx) => ({
+            // x: e.currentPower,
+            x: idx,
             y: e.currentFreq
         })))
 
@@ -99,11 +100,11 @@ class ControllerPane extends Component {
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Card body>
-                                        <XYPlot height={200} width={200}  yDomain={[35, 50]} xDomain={[1445, 1465]}>
+                                        <XYPlot height={200} width={200}  yDomain={[35, 50]} xDomain={[0, 10]}>
                                             <XAxis/><YAxis/>
                                             <HorizontalGridLines />
                                             <VerticalGridLines />
-                                            <LineSeries data={testData} />
+                                            <LineSeries data={mappedGraphData} />
                                         </XYPlot>
                                     </Card>
                                 </Form.Group>
