@@ -2,11 +2,15 @@ import React, {Component} from 'react';
 import socketIOClient from "socket.io-client";
 import './App.css';
 
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+
 import { connect } from "react-redux";
 import { updateUser, updateStreamdata, updateClientStreamOut, addDataPoint, setBatches } from './redux/actions'
 
 import Dashboard from './components/Dashboard';
 import MainNavbar from './components/MainNavbar'
+import Batches from './components/Batches'
+import Settings from './components/Settings'
 
 import SelectedControllerPane from './components/SelectedControllerPane';
 import SelectedChillerPane from './components/SelectedChillerPane'
@@ -80,20 +84,32 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App">
-        <MainNavbar />
-        <Dashboard />
-        <div className="selected-component">
-            {Object.keys(this.props.selectedComponent).filter(key => {return this.props.selectedComponent[key]}).map(activeKey => 
-                {return activeKey==='Chiller' ? 
-                  (<SelectedChillerPane processId={"Chiller"} key={`ActivePane-${activeKey}`}/>)
-                  : 
-                  (<SelectedControllerPane processId={activeKey} key={`ActivePane-${activeKey}`}/>)
-                }
-              )
-            }
+      <Router>
+        <div className="App">
+          <MainNavbar />
+          <Switch>
+            <Route path="/settings" 
+              render={this.props.user.id ? () => (<Settings />) : ()=>(<Redirect to="/" />)}>
+            </Route>
+            <Route path="/batches"
+              render={this.props.user.id ? () => (<Batches />) : ()=>(<Redirect to="/" />)}>
+            </Route>
+            <Route path="/" exact>
+              <Dashboard />
+              <div className="selected-component">
+                  {Object.keys(this.props.selectedComponent).filter(key => {return this.props.selectedComponent[key]}).map(activeKey => 
+                      {return activeKey==='Chiller' ? 
+                        (<SelectedChillerPane processId={"Chiller"} key={`ActivePane-${activeKey}`}/>)
+                        : 
+                        (<SelectedControllerPane processId={activeKey} key={`ActivePane-${activeKey}`}/>)
+                      }
+                    )
+                  }
+              </div>
+            </Route>
+          </Switch>
         </div>
-      </div>
+      </Router>
     )
   }
 }

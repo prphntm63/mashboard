@@ -1,14 +1,14 @@
 body {
-  height : 100vh;
+  height : 100%;
   margin : 0;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: 95vh;
 }
 
 .dashboard {
@@ -77,4 +77,15 @@ body {
 
 .card-body {
   background-color: white;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: rgb(194, 132, 41) !important;
+}
+
+.list-group-item.active {
+  z-index: 2;
+  color: #fff;
+  background-color: #FBB040;
+  border-color: #FBB040;
 }
