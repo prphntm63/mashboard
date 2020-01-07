@@ -120,6 +120,16 @@ let db = {
                 return batch
             })
         })
+    },
+
+    addBatch : function(batchData) {
+
+        return knex('Batches')
+        .insert(batchData)
+        .returning('*')
+        .then(batch => {
+            return batch
+        })
     }
 }
 

@@ -99,11 +99,12 @@ const ControllerParams = (props) => (
             {/* <Col s={4}>34.15</div> */}
             <Col xs={4} className="px-0">
                 <Badge pill 
-                variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? "warning" : "light") : "light"} className="w-100"
+                variant={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? "warning" : "light") : "light"} 
+                className="w-100 text-truncate"
                 style={props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch === (props.clientData[props.currentProcess] ? props.clientData[props.currentProcess].batch : 'null') ? {} : outlineStyle) : outlineStyle}
                 
                 >
-                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? props.streamData[props.currentProcess].batch : "N/A") : "N/A"}
+                    {props.streamData[props.currentProcess] ? (props.streamData[props.currentProcess].batch ? (Object.keys(props.batches).length ? props.batches[props.streamData[props.currentProcess].batch].name : "-") : "-") : "N/A"}
                 </Badge>
             </Col>
         </Row>
@@ -189,7 +190,8 @@ const mapStateToProps = (state) => ({
     clientData : state.clientdata,
     streamData : state.streamdata,
     selectedComponent : state.selectedComponent,
-    user : state.user
+    user : state.user,
+    batches : state.batches
 })
 
 const mapDispatchToProps = {

@@ -75,7 +75,7 @@ class ControllerPane extends Component {
                                     <Form.Control  className="rounded-pill gold"  size="lg"  as="select" id={"batch"} value={clientProcessData.batch === null ? '' : clientProcessData.batch} onChange={this.handleParamChange}>
                                         <option value={null}>Select...</option>
                                         {Object.keys(this.props.batches).map(batch => (
-                                            <option value={batch.id}>{batch.name}</option>
+                                            <option key={this.props.batches[batch].id} value={this.props.batches[batch].id}>{this.props.batches[batch].name}</option>
                                         ))}
                                     </Form.Control>
                                 </Form.Group>
