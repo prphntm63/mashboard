@@ -6,7 +6,27 @@ import { updateClientStreamOut, deselectComponent } from '../redux/actions'
 
 import { Button, Image, Card, Form, Col } from 'react-bootstrap'
 
+import '../../../node_modules/react-vis/dist/style.css'
+import {XYPlot, 
+    XAxis, 
+    YAxis, 
+    HorizontalGridLines, 
+    LineSeries,
+    VerticalGridLines, 
+    LineMarkSeries, 
+    makeWidthFlexible,
+    makeHeightFlexible} from 'react-vis';
+
+const FlexibleXYPlot = makeHeightFlexible(makeWidthFlexible(XYPlot));
+
+// const processData = (data) => {
+//     return data.map(e => ({
+//         x: e.currentPower,
+//         y: e.currentFreq
+//     }));
+// };
 class ControllerPane extends Component {
+
     componentDidUpdate = (prevProps) => {
         if (!isEqual(prevProps.clientData[this.props.processId], this.props.clientData[this.props.processId])) {
             console.log('sending event')
@@ -45,6 +65,37 @@ class ControllerPane extends Component {
     render = () => {
         const controllerProcessData = this.props.streamData[this.props.processId]
         const clientProcessData = this.props.clientData[this.props.processId]
+        const clientGraphData = this.props.graphData[this.props.processId]
+
+        // console.log(clientGraphData)
+
+        const mappedGraphData = (clientGraphData.map(e => ({
+            x: e.currentPower,
+            y: e.currentFreq
+        })))
+
+        console.log(mappedGraphData)
+
+        // dataPoint : { currentFreq: x, currentPower: y }
+        // MW suggests: this.props.graphdata[processType].map(dataPoint => {graph(dataPoint.ctime, dataPoint.currentTemp)})
+
+        // chiller x and y: currentFreq, currentPower
+         
+        // console.log('currentFreq: ', controllerProcessData.currentFreq)
+        // console.log('currentPower: ', controllerProcessData.currentPower)
+
+        const testData = [
+            {x: 1448, y: 48},
+            {x: 1451, y: 45},
+            {x: 1452, y: 44},
+            {x: 1453, y: 49},
+            {x: 1454, y: 41},
+            {x: 1455, y: 47},
+            {x: 1456, y: 46},
+            {x: 1457, y: 43},
+            {x: 1458, y: 42},
+            {x: 1463, y: 40}
+        ]
 
         return (
             // <Jumbotron className='selectedPane'>
@@ -57,7 +108,14 @@ class ControllerPane extends Component {
                         <Form>
                             <Form.Row>
                                 <Form.Group as={Col}>
-                                    <Card body><Image fluid src="https://miro.medium.com/max/982/1*bC5vMtpWz7qCFuSaD02lFg.gif"/></Card>
+                                    <Card body>
+                                        <XYPlot height={200} width={200}  yDomain={[35, 50]} xDomain={[1445, 1465]}>
+                                            <XAxis/><YAxis/>
+                                            <HorizontalGridLines />
+                                            <VerticalGridLines />
+                                            <LineSeries data={testData} />
+                                        </XYPlot>
+                                    </Card>
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label>Current Frequency</Form.Label>
@@ -93,6 +151,7 @@ class ControllerPane extends Component {
 const mapStateToProps = (state) => ({
     streamData : state.streamdata,
     clientData : state.clientdata,
+    graphData : state.graphdata,
     user : state.user
 })
 
