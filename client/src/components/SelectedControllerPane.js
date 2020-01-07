@@ -6,6 +6,8 @@ import { updateClientStreamOut, deselectComponent } from '../redux/actions'
 
 import { Button, Image, Card, Form, Col } from 'react-bootstrap'
 
+import DashboardGraph from './DashboardGraph'
+
 class ControllerPane extends Component {
 
     componentDidUpdate = (prevProps) => {
@@ -60,7 +62,8 @@ class ControllerPane extends Component {
                         <Form>
                             <Form.Row>
                                 <Form.Group as={Col}>
-                                    <Card body><Image fluid src="https://miro.medium.com/max/982/1*bC5vMtpWz7qCFuSaD02lFg.gif"/></Card>
+                                    {/* <Card body><Image fluid src="https://miro.medium.com/max/982/1*bC5vMtpWz7qCFuSaD02lFg.gif"/></Card> */}
+                                    <DashboardGraph processId={this.props.processId} />
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label>Current Temperature</Form.Label>
