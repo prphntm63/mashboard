@@ -72,7 +72,12 @@ class ControllerPane extends Component {
                                     <Form.Label>Last Updated</Form.Label>
                                     <Form.Control  className="rounded-pill gold"  size="lg"  type="text" disabled value={controllerProcessData.ctime}></Form.Control>
                                     <Form.Label>Batch</Form.Label>
-                                    <Form.Control  className="rounded-pill gold"  size="lg"  type="text" id={"batch"} value={clientProcessData.batch === null ? '' : clientProcessData.batch} onChange={this.handleParamChange}></Form.Control>
+                                    <Form.Control  className="rounded-pill gold"  size="lg"  as="select" id={"batch"} value={clientProcessData.batch === null ? '' : clientProcessData.batch} onChange={this.handleParamChange}>
+                                        <option value={null}>Select...</option>
+                                        {Object.keys(this.props.batches).map(batch => (
+                                            <option value={batch.id}>{batch.name}</option>
+                                        ))}
+                                    </Form.Control>
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                 <Form.Label>Hysteresis</Form.Label>
@@ -113,7 +118,8 @@ class ControllerPane extends Component {
 const mapStateToProps = (state) => ({
     streamData : state.streamdata,
     clientData : state.clientdata,
-    user : state.user
+    user : state.user,
+    batches : state.batches
 })
 
 const mapDispatchToProps = {

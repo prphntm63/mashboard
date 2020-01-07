@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import { updateUser, deselectAll } from './../redux/actions'
+import { updateUser, deselectAll, setBatches } from './../redux/actions'
 import {Button, Modal, Form, Navbar, Nav, DropdownButton, Dropdown} from 'react-bootstrap'
 
 class MainNavbar extends Component {
@@ -43,7 +43,9 @@ class MainNavbar extends Component {
         })
         .then(responseJSON => {
             if (responseJSON) {
-                this.props.updateUser(responseJSON)
+                this.props.updateUser(responseJSON.user)
+                this.props.setBatches(responseJSON.batches)
+
                 this.setState({
                     userEntry : null,
                     passwordEntry : null,
@@ -140,7 +142,8 @@ const mapStateToProps = (state) => ({
   
 const mapDispatchToProps = {
     updateUser,
-    deselectAll
+    deselectAll,
+    setBatches
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavbar);
